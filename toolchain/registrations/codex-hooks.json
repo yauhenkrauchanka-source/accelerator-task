@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "runtime": "codex",
+  "target": ".codex/hooks.json",
+  "registrationId": "frontend-accelerator.changed-file-lint-gate.v1",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$(git rev-parse --show-toplevel)/toolchain/hooks/runtime-hook.mjs\" codex SessionStart --registration frontend-accelerator.changed-file-lint-gate.v1",
+            "commandWindows": "try { $git = (Get-Command git -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source; $r = & $git rev-parse --show-toplevel 2>$null; if ($LASTEXITCODE -ne 0 -or -not $r) { throw 'Frontend Accelerator: current directory is not inside a Git repository' }; $r = $r.Trim(); $node = (Get-Command node -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source; & $node (Join-Path $r 'toolchain/hooks/runtime-hook.mjs') codex SessionStart --registration frontend-accelerator.changed-file-lint-gate.v1; $code = $LASTEXITCODE; if ($null -eq $code) { exit 1 }; exit $code } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+            "timeout": 15,
+            "statusMessage": "Activating frontend accelerator guardrails"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$(git rev-parse --show-toplevel)/toolchain/hooks/runtime-hook.mjs\" codex PreToolUse --registration frontend-accelerator.changed-file-lint-gate.v1",
+            "commandWindows": "try { $git = (Get-Command git -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source; $r = & $git rev-parse --show-toplevel 2>$null; if ($LASTEXITCODE -ne 0 -or -not $r) { throw 'Frontend Accelerator: current directory is not inside a Git repository' }; $r = $r.Trim(); $node = (Get-Command node -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source; & $node (Join-Path $r 'toolchain/hooks/runtime-hook.mjs') codex PreToolUse --registration frontend-accelerator.changed-file-lint-gate.v1; $code = $LASTEXITCODE; if ($null -eq $code) { exit 1 }; exit $code } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+            "timeout": 15,
+            "statusMessage": "Recording pre-change state"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$(git rev-parse --show-toplevel)/toolchain/hooks/runtime-hook.mjs\" codex PostToolUse --registration frontend-accelerator.changed-file-lint-gate.v1",
+            "commandWindows": "try { $git = (Get-Command git -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source; $r = & $git rev-parse --show-toplevel 2>$null; if ($LASTEXITCODE -ne 0 -or -not $r) { throw 'Frontend Accelerator: current directory is not inside a Git repository' }; $r = $r.Trim(); $node = (Get-Command node -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source; & $node (Join-Path $r 'toolchain/hooks/runtime-hook.mjs') codex PostToolUse --registration frontend-accelerator.changed-file-lint-gate.v1; $code = $LASTEXITCODE; if ($null -eq $code) { exit 1 }; exit $code } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+            "timeout": 15,
+            "statusMessage": "Recording changed files"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$(git rev-parse --show-toplevel)/toolchain/hooks/runtime-hook.mjs\" codex Stop --registration frontend-accelerator.changed-file-lint-gate.v1",
+            "commandWindows": "try { $git = (Get-Command git -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source; $r = & $git rev-parse --show-toplevel 2>$null; if ($LASTEXITCODE -ne 0 -or -not $r) { throw 'Frontend Accelerator: current directory is not inside a Git repository' }; $r = $r.Trim(); $node = (Get-Command node -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source; & $node (Join-Path $r 'toolchain/hooks/runtime-hook.mjs') codex Stop --registration frontend-accelerator.changed-file-lint-gate.v1; $code = $LASTEXITCODE; if ($null -eq $code) { exit 1 }; exit $code } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }",
+            "timeout": 300,
+            "statusMessage": "Linting files changed in this session"
+          }
+        ]
+      }
+    ]
+  }
+}

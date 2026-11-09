@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "toolchainVersion": 1,
+  "node": ">=24",
+  "capabilities": {
+    "browser": {
+      "required": true,
+      "package": "agent-browser",
+      "version": "0.32.3",
+      "integrity": "sha512-jwmqex/vEFNWx7X/W3JnZSWm5C+46SFKWDXYD7timGPCcvqHZtdVIBnKGUz7iCJYflQg4DrtxWUWzuin9+zoyA==",
+      "binary": "agent-browser",
+      "setup": [
+        "install"
+      ]
+    },
+    "docs": {
+      "required": false,
+      "package": "ctx7",
+      "version": "0.5.5",
+      "integrity": "sha512-yA42zBalneR2kXGAqzJWh23kpwLbdDeScy4dKXOOXUckDJlybk4+sn9uFOCYvGEiczMsmClOsqOwI6+BHCpk+w==",
+      "binary": "ctx7"
+    }
+  }
+}
